@@ -80,12 +80,17 @@ class TransformerEncoder(nn.Module):
                 pos: Optional[Tensor] = None):
         output = src
 
-        for layer in self.layers:
+        for i, layer in enumerate(self.layers):
             output = layer(output, src_mask=mask,
                            src_key_padding_mask=src_key_padding_mask, pos=pos)
+            print(f"Hidden states after layer {i}")
+            print(output[:3,0,:3])
 
         if self.norm is not None:
             output = self.norm(output)
+
+        print("Hidden states after final layer norm:")
+        print(output[:3,0,:3])
 
         return output
 
